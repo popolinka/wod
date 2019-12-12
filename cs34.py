@@ -47,32 +47,29 @@ listem = []
 aralik = range(1, 3)  # includes 1, but not 3
 for i in aralik:
     url = url + str(i)  # + "/"
-    listem.append(getWod(url)) # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
+    listem.append(getWod(
+        url))  # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
 
     time.sleep(1)
-
-# print(listem)
-# print(len(listem))
-# wodsCombinedComa = ','.join(listem[0])
 
 wodsCombinedComa = ""
 i = 0
 while i < len(listem):
-    wodsCombinedComa += '?'.join(listem[i]) # text lerde olmayan bir karakter olmasi onemli, yoksa text in kendisni 2 ayri parcaya boluyor
+    wodsCombinedComa += '?'.join(
+        listem[i])  # text lerde olmayan bir karakter olmasi onemli, yoksa text in kendisni 2 ayri parcaya boluyor
+    wodsCombinedComa += "?"
     i += 1
 
 print(wodsCombinedComa)
 wodsCombinedComaSplit = wodsCombinedComa.split('?')
-print(wodsCombinedComaSplit)
+print(wodsCombinedComaSplit) # the last item is '', why?
 print(len(wodsCombinedComaSplit))
 print(type(wodsCombinedComaSplit))
-
-
 
 f = open('antremanlar.txt', 'w+')
 
 for x in wodsCombinedComaSplit:
-    f.write('%s\n' % x)
-    #f.write(x + '----')
+    f.write('%s\n' % x)  # splitting each wod/item into a seperate row
+    # f.write(x + '----')
 
 f.close()
