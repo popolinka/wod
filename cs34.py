@@ -62,15 +62,16 @@ while i < len(listem):
     i += 1
 
 print(wodsCombinedComa)
-print(wodsCombinedComa.split(','))
-print(len(wodsCombinedComa.split(',')))
+wodsCombinedComaSplit = wodsCombinedComa.split(',')
+print(wodsCombinedComaSplit)
+print(len(wodsCombinedComaSplit))
+print(type(wodsCombinedComaSplit))
 
-# for x in listem:
-#     print(x)
 
-# f = open('antremanlar.txt', 'w+')
-#
-# for x in listem:
-#     f.write(x)
-#
-# f.close()
+
+f = open('antremanlar.txt', 'w+')
+
+for x in wodsCombinedComaSplit:
+    f.write(x + '----')
+
+f.close()
