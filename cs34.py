@@ -46,6 +46,7 @@ f = open('antremanlar.txt', 'w+')
 
 for x in wodsCombinedComaSplit:
     f.write('%s\n' % x)  # splitting each wod/item into a seperate row
-    # f.write(x + '----')
+
+    # TODO wodsCombinedComaSplit.append(x[:-1]) # removing the last /n line
 
 f.close()
