@@ -47,7 +47,7 @@ listem = []
 aralik = range(1, 3)  # includes 1, but not 3
 for i in aralik:
     url = url + str(i)  # + "/"
-    listem.append(getWod(url))
+    listem.append(getWod(url)) # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
 
     time.sleep(1)
 
@@ -58,11 +58,11 @@ for i in aralik:
 wodsCombinedComa = ""
 i = 0
 while i < len(listem):
-    wodsCombinedComa += ','.join(listem[i])
+    wodsCombinedComa += '?'.join(listem[i]) # text lerde olmayan bir karakter olmasi onemli, yoksa text in kendisni 2 ayri parcaya boluyor
     i += 1
 
 print(wodsCombinedComa)
-wodsCombinedComaSplit = wodsCombinedComa.split(',')
+wodsCombinedComaSplit = wodsCombinedComa.split('?')
 print(wodsCombinedComaSplit)
 print(len(wodsCombinedComaSplit))
 print(type(wodsCombinedComaSplit))
@@ -72,6 +72,7 @@ print(type(wodsCombinedComaSplit))
 f = open('antremanlar.txt', 'w+')
 
 for x in wodsCombinedComaSplit:
-    f.write(x + '----')
+    f.write('%s\n' % x)
+    #f.write(x + '----')
 
 f.close()
