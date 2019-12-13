@@ -38,6 +38,7 @@ while i < len(listem):
     wodsCombinedComa += "?"
     i += 1
 
+
 wodsCombinedComaSplit = wodsCombinedComa.split('?')
 
 # print(wodsCombinedComa)
@@ -45,24 +46,14 @@ wodsCombinedComaSplit = wodsCombinedComa.split('?')
 print(len(wodsCombinedComaSplit))
 print(type(wodsCombinedComaSplit))
 
-degisecekler = [("ı", "i"), ("Burpees", "Burpee")]
+degisecekler = [("ı", "i"), ("Burpees", "Burpee"), ("Dumbbel", "Dumbell"), ("&", "& ")]
 
 for a, b in degisecekler:
-    wods = [s.replace(a, b) for s in wodsCombinedComaSplit]
-
-degisenBir = "ı"
-degistigiBir = "i"
-degisenIki = "Burpees"
-degistigiIki = "Burpee"
-
-# translation = {degisenBir: degistigiBir}
-# table = str.maketrans(translation)
-# print(type(translation))
-# wodsCombinedComaSplit = [s.translate(table) for s in wodsCombinedComaSplit]
+    wodsCombinedComaSplit = [s.replace(a, b) for s in wodsCombinedComaSplit]
 
 f = open('antremanlar.txt', 'w+')
 
-for x in wods:
+for x in wodsCombinedComaSplit:
     f.write('%s\n' % x)  # splitting each wod/item into a seperate row
 
     # TODO wodsCombinedComaSplit.append(x[:-1]) # removing the last /n line
