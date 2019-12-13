@@ -9,6 +9,7 @@ blackList = [
     '\n', ' ', 'E-posta', ' ', 'Telefon', 'Mesaj', 'İsim'
 ]
 
+
 def getWod(url):
     url = url
     response = requests.get(url)
@@ -16,6 +17,7 @@ def getWod(url):
     liste = [t for t in soup.find_all(text=True) if t.parent.name in whitelist and t not in blackList]
 
     return liste
+
 
 url = 'https://crossfit34.com/gunun-antrenmani/page/'
 
@@ -36,15 +38,31 @@ while i < len(listem):
     wodsCombinedComa += "?"
     i += 1
 
-print(wodsCombinedComa)
 wodsCombinedComaSplit = wodsCombinedComa.split('?')
-print(wodsCombinedComaSplit) # the last item is '', why?
+
+# print(wodsCombinedComa)
+# print(wodsCombinedComaSplit)  # the last item is '', why?
 print(len(wodsCombinedComaSplit))
 print(type(wodsCombinedComaSplit))
 
+degisecekler = [("ı", "i"), ("Burpees", "Burpee")]
+
+for a, b in degisecekler:
+    wods = [s.replace(a, b) for s in wodsCombinedComaSplit]
+
+degisenBir = "ı"
+degistigiBir = "i"
+degisenIki = "Burpees"
+degistigiIki = "Burpee"
+
+# translation = {degisenBir: degistigiBir}
+# table = str.maketrans(translation)
+# print(type(translation))
+# wodsCombinedComaSplit = [s.translate(table) for s in wodsCombinedComaSplit]
+
 f = open('antremanlar.txt', 'w+')
 
-for x in wodsCombinedComaSplit:
+for x in wods:
     f.write('%s\n' % x)  # splitting each wod/item into a seperate row
 
     # TODO wodsCombinedComaSplit.append(x[:-1]) # removing the last /n line
