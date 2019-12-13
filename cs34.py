@@ -10,7 +10,7 @@ blackList = [
 ]
 
 
-def getWod(url):
+def getwod(url):
     url = url
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -25,7 +25,7 @@ listem = []
 aralik = range(1, 3)  # includes 1, but not 3
 for i in aralik:
     url = url + str(i)  # + "/"
-    listem.append(getWod(
+    listem.append(getwod(
         url))  # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
 
     time.sleep(1)
@@ -38,7 +38,6 @@ while i < len(listem):
     wodsCombinedComa += "?"
     i += 1
 
-
 wodsCombinedComaSplit = wodsCombinedComa.split('?')
 
 # print(wodsCombinedComa)
@@ -46,7 +45,9 @@ wodsCombinedComaSplit = wodsCombinedComa.split('?')
 print(len(wodsCombinedComaSplit))
 print(type(wodsCombinedComaSplit))
 
-degisecekler = [("ı", "i"), ("Burpees", "Burpee"), ("Dumbbel", "Dumbell"), ("&", "& ")]
+degisecekler = [("ı", "i"), ("Burpees", "Burpee"), ("Dumbbel", "Dumbbell"), ("dumbbells", "Dumbbell"),
+                ("&", " & "),("+ ", " + "), ("+", " + "), ("   +  ", " + "), (" )", ")"), ("(", " ("), (" (", " ("),
+                ("Paralel", "Parallel")]
 
 for a, b in degisecekler:
     wodsCombinedComaSplit = [s.replace(a, b) for s in wodsCombinedComaSplit]
