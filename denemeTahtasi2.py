@@ -38,6 +38,7 @@ link = "http://crossfitbalabanlevent.blogspot.com/"
 
 workouts = []
 years = [2015, 2016]
+# year 2014 only has 3 months, compromise, too much effort, let it go.
 months = ["01", "02"]
 # updated Python does not support format 01 02 etc.
 # TODO: when the if statement is triggered, the output is simply an emtpy list
