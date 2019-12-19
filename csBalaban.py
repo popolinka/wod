@@ -3,6 +3,8 @@ import time
 import re
 from bs4 import BeautifulSoup
 
+# TODO: More than 2 MONTHS/YEARS does not crawl
+
 
 def getwod(url):
     listem = []
