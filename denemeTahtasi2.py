@@ -1,5 +1,6 @@
 import requests
 import time
+import re
 from bs4 import BeautifulSoup
 
 
@@ -13,7 +14,8 @@ def getwod(url):
     if wods:  # TODO: derdin ne abi, aslinda wods != [] in simple hali o
         for wod in wods:
             if len(wod) > 0:
-                listem.append(wod.text.replace('\n', ''))
+                listem.append(wod.text.replace('\n', ' '))
+                # listem.append(wod.text)
             else:
                 pass
     if wods:
@@ -55,6 +57,12 @@ for y in years:
 
 # print(getwod("http://crossfitbalabanlevent.blogspot.com/2019/10/"))
 
+# some regex
+for workout in workouts[0]:
+    workout = workout.strip()
+    # workout = re.sub("\s+", " ", workout)
+    workout = re.sub(' {2,}', ' ', workout)
+
 f = open('BalabanCS_wods.txt', 'w+')
 
 for x in workouts[0]:
@@ -68,5 +76,3 @@ f.close()
 # print(type(workouts))
 # print(len(workouts))
 # print(len(workouts[0]))
-
-
