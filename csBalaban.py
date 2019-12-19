@@ -11,20 +11,22 @@ def getwod(url):
     soup = BeautifulSoup(response.text, "html.parser")
     wods = soup.findAll("div", {"class": "post-body entry-content"})
 
-    if wods:  # TODO: derdin ne abi, aslinda wods != [] in simple hali o
+    if wods:
         for wod in wods:
             if len(wod) > 0:
-                listem.append(wod.text.replace('\n', ' ').strip())  # trailing whitespaces are removed here
-                # listem.append(wod.text)
+                listem.append(
+                    re.sub("\s+", " ", wod.text.replace('\n', ' ').strip()))
+                # trailing whitespaces AND large spaces in between words are removed here
             else:
                 pass
     if wods:
         return [wods, listem]
 
+
 link = "http://crossfitbalabanlevent.blogspot.com/"
 
 workouts = []
-years = [2015, 2016, 2017, 2018]
+years = [2014, 2015]
 # year 2014 only has 3 months, compromise, too much effort, let it go.
 months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 # updated Python does not support format 01 02 etc.
@@ -39,18 +41,10 @@ for y in years:
 
     time.sleep(1)
 
-
-# some regex, OR NAH
-# STILL TODO: cannot fix the >1 spaces in between some words
-for workout in workouts[0]:
-    workout = re.sub("\s+", " ", workout)
-    # workout = re.sub(' {2,}', ' ', workout)
-
-
-with open('BalabanCS_wods.txt', 'w') as f: # with => no need to f.close()
+with open('BalabanCS_wods.txt', 'w') as f:  # with => no need to f.close()
     f.writelines('\n'.join(workouts[0]))
 
-#Check that the file has been automatically closed.
+# Check that the file has been automatically closed.
 print(f.closed)
 
 """
