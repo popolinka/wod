@@ -2,6 +2,8 @@ import requests
 import time
 from bs4 import BeautifulSoup
 
+# TODO: More than 2 pages gives error/does not crawl
+
 whitelist = [
     'p'
 ]
