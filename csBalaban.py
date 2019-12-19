@@ -1,13 +1,7 @@
 import requests
 import time
+import re
 from bs4 import BeautifulSoup
-
-whitelist = [
-    'p', 'h4', 'div', 'h3'
-]
-blackList = [
-    '\n', ' ', 'E-posta', ' ', 'Telefon', 'Mesaj', 'İsim'
-]
 
 
 def getwod(url):
@@ -16,34 +10,53 @@ def getwod(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     wods = soup.findAll("div", {"class": "post-body entry-content"})
-    for wod in wods:
-        listem.append(wod.text.replace('\n', ''))
 
-    return listem
+    if wods:  # TODO: derdin ne abi, aslinda wods != [] in simple hali o
+        for wod in wods:
+            if len(wod) > 0:
+                listem.append(wod.text.replace('\n', ' ').strip())  # trailing whitespaces are removed here
+                # listem.append(wod.text)
+            else:
+                pass
+    if wods:
+        return [wods, listem]
 
-
-url = "http://crossfitbalabanlevent.blogspot.com/"
+link = "http://crossfitbalabanlevent.blogspot.com/"
 
 workouts = []
-# years = [2014, 2015, 2016, 2017, 2018, 2019, 2020]
-years = [2014, 2015]
+years = [2015, 2016, 2017, 2018]
+# year 2014 only has 3 months, compromise, too much effort, let it go.
 months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 # updated Python does not support format 01 02 etc.
-# TODO: when the if statement is triggered, the output is simply an emtpy list
 
 for y in years:
+    link = link + str(y) + "/"
     for m in months:
-        url = url + str(y) + "/" + m + "/"
-        # workouts.append(getwod(url))
-        if getwod(url):
-            workouts.append(getwod(url))
-
-        # if requests.get(url).status_code == 200:
-        #     workouts.append(getwod(url))
+        link = link + m + "/"
+        if getwod(link) is not None:
+            workouts.append(getwod(link)[1])
         # else:
-        #     pass
+
     time.sleep(1)
 
-# print(getwod("http://crossfitbalabanlevent.blogspot.com/2019/10/"))
 
-print(workouts)
+# some regex, OR NAH
+# STILL TODO: cannot fix the >1 spaces in between some words
+for workout in workouts[0]:
+    workout = re.sub("\s+", " ", workout)
+    # workout = re.sub(' {2,}', ' ', workout)
+
+
+with open('BalabanCS_wods.txt', 'w') as f: # with => no need to f.close()
+    f.writelines('\n'.join(workouts[0]))
+
+#Check that the file has been automatically closed.
+print(f.closed)
+
+"""
+as per https://docs.python.org/3/tutorial/inputoutput.html
+It is good practice to use the with keyword when dealing with file objects. The advantage is that the file is properly closed after its suite finishes, even if an exception is raised at some point.
+If you’re not using the with keyword, then you should call f.close() to close the file and immediately free up any system resources used by it. If you don’t explicitly close a file, Python’s garbage collector will eventually destroy the object and close the open file for you, but the file may stay open for a while. Another risk is that different Python implementations will do this clean-up at different times.
+
+After a file object is closed, either by a with statement or by calling f.close(), attempts to use the file object will automatically fail.
+"""
