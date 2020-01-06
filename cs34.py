@@ -2,62 +2,51 @@ import requests
 import time
 from bs4 import BeautifulSoup
 
-# TODO: More than 2 pages gives error/does not crawl
-
-whitelist = [
-    'p'
-]
-blackList = [
-    '\n', ' ', 'E-posta', ' ', 'Telefon', 'Mesaj', 'İsim'
-]
+whitelist = ['p']
+blackList = ['\n', ' ', 'E-posta', ' ', 'Telefon', 'Mesaj', 'İsim']
 
 
 def getwod(url):
     url = url
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    liste = [t for t in soup.find_all(text=True) if t.parent.name in whitelist and t not in blackList]
+    workouts = [t for t in soup.find_all(text=True) if t.parent.name in whitelist and t not in blackList]
 
-    return liste
+    return workouts
 
 
-url = 'https://crossfit34.com/gunun-antrenmani/page/'
-
-listem = []
-aralik = range(1, 3)  # includes 1, but not 3
+wods = []
+aralik = range(1, 7)  # includes 1, but not 3
 for i in aralik:
-    url = url + str(i)  # + "/"
-    listem.append(getwod(
-        url))  # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
+    url = 'https://crossfit34.com/gunun-antrenmani/page/{}'.format(i) + '/'
+    wods.append(getwod(url))
+    # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
 
-    time.sleep(1)
+    time.sleep(10)
 
 wodsCombinedComa = ""
 i = 0
-while i < len(listem):
+while i < len(wods):
     wodsCombinedComa += '?'.join(
-        listem[i])  # text lerde olmayan bir karakter olmasi onemli, yoksa text in kendisni 2 ayri parcaya boluyor
+        wods[i])  # text lerde olmayan bir karakter olmasi onemli, yoksa text in kendisni 2 ayri parcaya boluyor
     wodsCombinedComa += "?"
     i += 1
 
 wodsCombinedComaSplit = wodsCombinedComa.split('?')
 
-# print(wodsCombinedComa)
-# print(wodsCombinedComaSplit)  # the last item is '', why?
-print(len(wodsCombinedComaSplit))
-print(type(wodsCombinedComaSplit))
-
 degisecekler = [("ı", "i"), ("Burpees", "Burpee"), ("Dumbbel", "Dumbbell"), ("dumbbells", "Dumbbell"),
-                ("&", " & "),("+ ", " + "), ("+", " + "), ("   +  ", " + "), (" )", ")"), ("(", " ("), (" (", " ("),
-                ("Paralel", "Parallel")]
+                ("&", " & "), ("+ ", " + "), ("+", " + "), ("   +  ", " + "), (" )", ")"), ("(", " ("), (" (", " ("),
+                ("Paralel", "Parallel"), ("Russain", "Russian")]
 
 for a, b in degisecekler:
     wodsCombinedComaSplit = [s.replace(a, b) for s in wodsCombinedComaSplit]
 
-f = open('antremanlar.txt', 'w+')
+print(len(wodsCombinedComaSplit))
+
+f = open('CS34_wods.txt', 'w+')
 
 for x in wodsCombinedComaSplit:
-    f.write('%s\n' % x)  # splitting each wod/item into a seperate row
+    f.write('%s\n' % x)  # splitting each wod/item into a separate row
 
     # TODO wodsCombinedComaSplit.append(x[:-1]) # removing the last /n line
 
