@@ -22,7 +22,7 @@ for i in aralik:
     wods.append(getwod(url))
     # ilk savfayi bitirip ikinci sayfaya gecerken bosluk birakmasi lazim, yoksa son ve ilk idman birlesiyor
 
-    time.sleep(10)
+    time.sleep(10) # as per /robots.txt
 
 wodsCombinedComa = ""
 i = 0
