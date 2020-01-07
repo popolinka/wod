@@ -25,3 +25,4 @@ for i in range(1, 3):  # (a,b) where b exclusive
 with open('crossfitCom_wods.txt', 'w+') as f:
     for x in workouts:
         f.write('%s\n' % x)  # splitting each wod/item into a separate row
+# TODO:
