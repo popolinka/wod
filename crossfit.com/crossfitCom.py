@@ -3,7 +3,8 @@ import time
 from bs4 import BeautifulSoup
 
 workouts = []
-link = "https://www.crossfit.com/workout/"
+link = "https://www.crossfit.com/workout/?page={}/"
+
 
 def getwod(url):
     url = url
@@ -12,13 +13,18 @@ def getwod(url):
     workoutsTags = soup.findAll("div", {"class": "col-sm-6"})  # <class 'bs4.element.ResultSet'>
 
     for workout in workoutsTags:
-        if workout.get_text():  # emtpy text check
+        if workout.get_text() and not (workout.get_text()).startswith("Rest Day"):  # empty and "Rest Day..." check
             workouts.append(" ".join(workout.get_text().split("\n")).strip())
             # TODO: For Tuesday 200107, it crawls an extra Post thoughts... check Elements of the link out
     return workouts
 
-wods = getwod(link)
+
+for i in range(1, 3):  # 5 exclusive
+    workouts.append(getwod(link.format(i)).pop(-1))  # pop bc. since return workouts (see getwod()) adds ...
+    time.sleep(5)
 
 with open('crossfitCom_wods.txt', 'w+') as f:
-    for x in wods:
+    for x in workouts:
         f.write('%s\n' % x)  # splitting each wod/item into a separate row
+
+print(workouts.pop(-1))
