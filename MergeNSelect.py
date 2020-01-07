@@ -5,10 +5,10 @@ import random
 
 filenames = ['CS34_wods.txt', 'crossfitCom_wods.txt']
 
-# with open('/Users/orkunkadioglu/PycharmProjects/buSeferCiddi/venv/wods.txt', 'w') as outfile:
-#     for fname in filenames:
-#         with open(fname) as infile:
-#             outfile.write(infile.read())
+with open('/Users/orkunkadioglu/PycharmProjects/buSeferCiddi/venv/wods.txt', 'w') as outfile:
+    for fname in filenames:
+        with open(fname) as infile:
+            outfile.write(infile.read())
 
 
 def generateRandomWod():
