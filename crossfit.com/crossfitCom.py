@@ -18,12 +18,17 @@ def getwod(url):
     for workout in workoutsTags:
         if workout.get_text() and not (workout.get_text()).startswith("Rest Day"):  # empty and "Rest Day..." check
             if not workout.get_text().split()[0] in days:  # getting rid of day + wod duplicate issue
-                workouts.append(" ".join(workout.get_text().split("\n")).strip())   
-                # TODO: Catch "Post time to comments." and erase them.
+                # y = workout.replace(old=" Post time to comments.", new="")
+                y = " ".join(workout.get_text().split("\n")).strip()
+                y.replace(" Post time to comments." and " Post rounds completed to comments.", "")  # TODO
+                y = re.sub("\|.+", "", y)  # getting rid of | Compare to 112...
+                workouts.append(y.strip())
+                # TODO: Catch "Post time to comments." and erase them. also get rid of COMPARE s
+                # Catching post is not always convenient, e.g. Do it on a track, upload video to YouTube, and post a lin
     return workouts
 
 
-for i in range(1, 10):  # 5 exclusive
+for i in range(1, 2):  # 5 exclusive
     workouts.append(getwod(link.format(i)).pop(-1))  # pop bc. since return workouts (see getwod()) adds ...
     time.sleep(5)
 
